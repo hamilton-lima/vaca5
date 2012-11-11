@@ -3,4 +3,4 @@
 
 = create javadoc like documentation
 cd jsdoc-toolkit
-./jsdoc-toolkit/generate-doc.sh 
+./generate-doc.sh 
