@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground"><canvas id="c">Navegador não
+compatível com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script><!--
+	var w = 750;
+	var h = 300;
+	var lines = 5;
+	var columns = 5;
+	var max = lines * columns;
+	var border = 5;
+
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, w, h);
+	var scene1 = new Scene(w, h);
+	scene1.setBackground('white');
+
+	var layoutScene = new GridLayout(0, 0, w, h, 3, 3, border );
+	layoutScene.setBackground('#FFFFFF');
+	scene1.add(layoutScene);
+	
+	var layout = new GridLayout(20, 20, 200, 100, lines, columns, border );
+	layout.setBackground('#333333');
+	layoutScene.add(layout);
+
+	for ( var n = 0; n < max; n++) {
+		var rect = new Rectangle('rect_' + n, 0, 0, 0, 0);
+		rect.fillColor = NMSColor.BANANA;
+		rect.borderColor = NMSColor.BANANA;
+		layout.add(rect);
+	}
+
+	lines = lines *2;
+	max = lines * columns;
+	border = 3;
+
+	var layout2 = new GridLayout(250, 20, 200, 100, lines, columns, border );
+	layout2.setBackground('#111111');
+	layout2.isDraggable = true;
+	layoutScene.add(layout2);
+	
+	for ( var n = 0; n < max; n++) {
+		var rect = new Rectangle('rect2_' + n, 0, 0, 0, 0);
+		rect.fillColor = NMSColor.MUSCAT_GRAPES;
+		rect.borderColor = NMSColor.MUSCAT_GRAPES;
+		layout2.add(rect);
+	}
+
+	max = 3 * 18;
+	var layout3 = new GridLayout(20, 150, 500, 100, 3, 18, border );
+	layout3.setBackground(NMSColor.BROCCOLI);
+	layoutScene.add(layout3);
+	
+	for ( var n = 0; n < max; n++) {
+		var rect = new Rectangle('rect2_' + n, 0, 0, 0, 0);
+		rect.fillColor = NMSColor.AVOCADO;
+		rect.borderColor = NMSColor.AVOCADO;
+		layout3.add(rect);
+	}
+
+
+	mygame.currentScene = scene1;
+
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.showFPS = false;
+	mygame.start();
+	
+--></script>
+
+
+</body>
+</html>

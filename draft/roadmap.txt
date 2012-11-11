@@ -1,0 +1,73 @@
+roadmap vaca5
+-------------
+
+* add IE to tests 
+
+- criar cache de sprites / sons
+	manage image loading progress %
+	
+	loading scene 
+	criar cena de carga de recursos registrados
+	
+- criar callback para start da cena
+
+- animate sprites
+- check if can move sprite to position
+
+- add camera to scroll the screen -- criar elemento de viewport
+- create layer "container" to multiple sprites/labels
+
+- adicionar botao
+- adicionar caixa de texto
+- adicionar multiline label
+- adicionar integracao com http://www.google.com/webfonts
+- adicionar integracao com facebook
+- add physics objects	
+
+done
+----
+2011-jun09
+- change scene
+	verificar se tem como usar ultima imagem do canvas desenhado
+	para fazer efeitos de fadeout
+- check colision
+- check if click from rectangle propagate to sprite and text
+- calculate width of the text
+- drag text and image
+
+2011-jun-09
+check when mouse clicked 
+
+2011-jun-06
+- play sounds
+	* firefox audio nao esta fazendo loop = resolvido com evento no fim.
+	* ipod nao esta tocando trilha sonora somente som reativo ao teclado.
+	-- verificar .readyState == Audio.HAVE_CURRENT_DATA dos audios...
+
+- merge all scripts in one
+- obfuscate/optimize
+usar esta para reduzir tamanho do codigo http://code.google.com/closure/compiler/
+
+java -jar compiler.jar --js=in1.js --js=in2.js ... --js_output_file=out.js
+
+<script src="lib/audio.js"></script>
+<script src="lib/sprite.js"></script>
+<script src="lib/label.js"></script>
+<script src="lib/scene.js"></script>
+<script src="lib/debug.js"></script>
+<script src="lib/game.js"></script>
+
+
+
+2011-maio-30
+
+respond to clicks
+	and mouse moves add callback to the events
+	callback that receive game,x,y
+	
+2011-maio-29
+ok - respond to keyboard strokes
+ok - find elements by id 
+ok - change label information
+ok - show debug information -- add on the fly to the current html a flating div with debug positions
+ok draw images

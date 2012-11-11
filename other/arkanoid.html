@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+<title></title>
+</head>
+
+<body onselect="return false;">
+<script src="lib/nmscolor.js"></script>
+<script src="lib/resource.js"></script>
+<script src="lib/layout.js"></script>
+<script src="lib/transition.js"></script>
+<script src="lib/colision.js"></script>
+<script src="lib/rectangle.js"></script>
+<script src="lib/grid.js"></script>
+<script src="lib/audio.js"></script>
+<script src="lib/sprite.js"></script>
+<script src="lib/label.js"></script>
+<script src="lib/scene.js"></script>
+<script src="lib/debug.js"></script>
+<script src="lib/browser.js"></script>
+<script src="lib/game.js"></script>
+
+<div id="playground"><canvas id="c"> Navegador nao
+compativel com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script>
+	var w = 800;
+	var h = 600;
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, w, h);
+	
+	var ballvai = 1;
+
+	var scene1 = new Scene(w, h);
+	scene1.setBackground('#FFFFFF');
+	var quadrosPorLinha = 10;
+
+	var marginEsq = 10;
+	var marginDir = 10;	
+	var marginTopo = 10;
+	var margin = 10;
+	
+	var larguraUtil = w - marginEsq - marginDir;
+	
+	var w1 = (larguraUtil / quadrosPorLinha ) - margin;
+	var h1 = 30;
+	var x = 0;
+	var y = 0;
+	var lineMax = 9;
+	
+
+	var colunas = quadrosPorLinha;
+	var linhas = (h * 0.5) / (h1+margin);
+
+	var counter = 1;
+	
+	for ( var n = 0; n < colunas; n++) {
+		for ( var m = 0; m < linhas; m++) {
+			x = (n * (w1+margin)) + marginEsq;
+			y = m * (h1+margin) + marginTopo;
+			
+			var rect = new Rectangle('rect_' + counter, x, y, w1, h1);
+			counter ++;
+			
+			rect.fillColor = NMSColor.TANGERINE;
+			rect.borderColor = '#000000';
+			rect.isColidable = true;
+			scene1.add(rect);
+		}
+	
+	}
+	
+	//var rect3 = new Rectangle('perde',0,600,800,10)
+	//rect3.isColidable = true;
+	//scene1.add(rect3);
+	
+
+	var rect2 = new Rectangle('bola', 120, h - 100, 10, 10);
+	rect2.isColidable = true;
+	scene1.add(rect2);
+	
+	rect2.speedX = (Math.random() * 20) + 1;
+	rect2.speedY = (Math.random() * 20) + 1;
+
+		// counter to allow the colision color remains
+		rect2.counter = 0;
+
+		// before UPDATE
+		rect2.beforeUpdate = function(_game, _scene, current){
+			current.counter--;
+			
+			if (current.counter < 1) {
+				current.fillColor = NMSColor.BANANA;
+			}
+
+			current.x += current.speedX * _game.dt;
+			current.y += current.speedY * _game.dt;
+			
+			if (current.x < marginEsq) {
+				current.speedX = current.speedX * -1;
+			}
+			if (current.y < marginTopo) {
+				current.speedY = current.speedY * -1;
+			}
+			if (current.x + current.width > _game.width - marginDir) {
+				current.speedX = current.speedX * -1;
+			}
+			if (current.y > _game.height) {
+				current.speedY = current.speedY * -1;
+			}
+			
+	
+			
+		
+		}
+		
+
+	mygame.colision.handlers.push(function(_game, _a, _b) {
+		// _game.debug.warn('colisao de ' + _a.id + ' para ' + _b.id );
+		
+		if( _a.id.indexOf('rect_') >= 0 ){
+			_a.remove = true;
+		}
+		
+		if( _b.id.indexOf('rect_') >= 0 ){
+			_b.remove = true;
+		}
+		
+	});
+	
+
+	mygame.colision.handlers.push(function(_game, _a, _b) {
+		// _game.debug.warn('colisao de ' + _a.id + ' para ' + _b.id );
+	
+		if( _a.id == 'bola' && _b.id =='target'){
+			_game.debug.warn('bola com paleta');
+			var bola = _game.currentScene.findById('bola');
+			bola.speedX = bola.speedX * -1;
+			bola.speedY = bola.speedY * -1;
+		}
+		
+	});
+
+	
+	var sprite = new Sprite('target', 100, 570, 'images/paleta.png' );
+	sprite.isColidable = true;
+	scene1.add(new MoveText());
+	scene1.add(sprite);
+
+	function MoveText() {
+		this.speed = 10;
+		
+
+		this.update = function(_game) {
+			var target = _game.currentScene.findById('target');
+
+			if (_game.isKeyPressed('left')) {
+				target.x -= this.speed;
+			}
+
+			if (_game.isKeyPressed('right')) {
+				target.x += this.speed;
+		
+			}
+			
+			if (target.x  < marginEsq) {
+				target.x = marginEsq;
+ 
+   			}
+			if (target.x + target.width + marginDir > _game.width){
+				target.x = _game.width - target.width - marginDir;
+			}
+			
+			
+		};
+		
+	}	
+	
+	/*var label = new Label(marginEsq, y + h1 + marginTopo, 
+	'_title','Caixas distribuidas em matriz');
+	scene1.add(label);*/
+
+	mygame.currentScene = scene1;
+	// lets do it 
+	mygame.debug.level = mygame.debug.WARN;
+	mygame.showFPS = true;
+	mygame.start();
+	
+</script>
+
+
+</body>
+</html>

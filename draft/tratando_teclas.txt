@@ -1,0 +1,33 @@
+tratando teclas
+
+opcao 1 *** escolhida por ter melhor performance
+-------
+
+no key down set true na posicao do tecla no array
+ex. teclas[223] = true
+
+no key up set false na posicao da tecla no array 
+ex. teclas[223] = false
+
+para testar se uma tecla esta pressiona
+procura na posicao N no array se esta true.
+
+>> vantagem = indexacao direta no array de teclas
+>> desvantagem = espacos de memoria nao utilizados
+
+opcao 2
+-------
+
+manter array das teclas pressionadas
+
+no key down adicionar o numero da tecla na lista
+- teclas.push(223)
+
+no key up remover tecla pressiona da lista
+- pesquisa na lista e splice() no elemento a ser removido
+
+para testar se tecla esta pressionada 
+- pesquisa na lista 
+
+>> vantagem = menos memoria utilizada
+>> desvantagem = operacao de pesquisa para toda tecla pressionada 

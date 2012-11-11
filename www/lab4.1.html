@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground">
+<canvas id="c">
+Navegador nao compativel com HTML5
+</canvas>
+</div>
+<div id="debug_div"></div>
+
+<script>
+
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, 320, 240);
+
+	var title = mygame.currentScene.findById('_title');
+	title.text = "lab4 v7 - click on/off audio";
+
+	mygame.currentScene.add( new Label(10,70,'loading','loading status :'));
+	mygame.currentScene.add( new function(){
+			this.update = function(_game){
+				var label = mygame.currentScene.findById('loading');
+				label.text = 'loading status :' + _game.audio.loadingStatus();
+			}
+	});
+
+	mygame.currentScene.add( new Label(10,120,'audio-type','audio type : '));
+	mygame.currentScene.add( new function(){
+			this.update = function(_game){
+				var label = mygame.currentScene.findById('audio-type');
+				var type = "#N/D";
+				if( _game.audio.canPlayMp3 ){
+					type = "MP3";
+				} else {
+					if( _game.audio.canPlayOgg){
+						type = "OGG";
+					}
+				}
+				label.text = 'audio type : ' + type;
+			}
+	});
+
+	// starts the scene soundtrack
+	mygame.currentScene.add( new function(){
+		this.start = function(_game){
+			_game.debug.warn('starting the soundtrack.');
+			_game.audio.play('audio/soundtrack');
+		};
+	});
+
+	// register the audio resources
+	mygame.audio.register('audio/powerup');
+	mygame.audio.register('audio/soundtrack',true);	
+	mygame.audio.register('audio/coin',true);
+
+
+	// pointer down
+	mygame.currentScene.pointerDownCallbacks.push(function(_game, x, y) {
+
+		if (_game.audio.muted) {
+			_game.audio.unmute();
+		
+			_game.audio.play('audio/coin');
+			_game.audio.play('audio/powerup');	
+		} else {
+			_game.audio.mute();
+		}
+	});
+
+	// lets do it 
+	mygame.start();
+
+
+</script>
+
+
+</body>
+</html>

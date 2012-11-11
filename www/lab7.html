@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+
+<script src="vaca5.js"></script>
+
+<div id="playground"><canvas id="c"> Navegador nao
+compativel com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script>
+	var w = 750;
+	var h = 500;
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, w, h);
+
+	var scene1 = new Scene(w, h);
+	var label = new Label(100,100,'_title','SCENE 1');
+	scene1.add(label);
+	scene1.setBackground(NMSColor.BANANA);
+	scene1.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.currentScene.transition =  new Transition(scene2);
+		_game.currentScene.transition.effect = _game.currentScene.transition.EFFECT_FADE;		
+	});
+
+	var scene2 = new Scene(w, h);
+	var label = new Label(100,100,'_title','SCENE 2');
+	scene2.add(label);
+	scene2.setBackground(NMSColor.WATERCRESS);
+	scene2.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.currentScene.transition = new Transition(scene3);
+		_game.currentScene.transition.effect = _game.currentScene.transition.EFFECT_SLIDE_DOWN;
+	});
+
+	var scene3 = new Scene(w, h);
+	var label = new Label(100,100,'_title','SCENE 3');
+	scene3.add(label);
+	scene3.setBackground(NMSColor.RED_KIDNEY_BEAN);
+	scene3.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.currentScene.transition = new Transition(scene4);
+		_game.currentScene.transition.effect = _game.currentScene.transition.EFFECT_SLIDE_RIGHT;
+	});
+
+	var scene4 = new Scene(w, h);
+	var label = new Label(100,100,'_title','SCENE 4');
+	scene4.add(label);
+	scene4.setBackground(NMSColor.MUSCAT_GRAPES);
+	scene4.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.currentScene.transition = new Transition(scene5);
+		_game.currentScene.transition.effect = _game.currentScene.transition.EFFECT_SLIDE_TOP;
+	});
+
+	var scene5 = new Scene(w, h);
+	var label = new Label(100,100,'_title','SCENE 5');
+	scene5.add(label);
+	scene5.setBackground(NMSColor.VINE_TOMATO);
+	scene5.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.currentScene.transition = new Transition(scene1);
+		_game.currentScene.transition.effect = _game.currentScene.transition.EFFECT_SLIDE_LEFT;
+	});
+
+	mygame.currentScene = scene1;
+	
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.start();
+</script>
+
+
+</body>
+</html>

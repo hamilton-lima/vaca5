@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<canvas id="c">
+Navegador não compatível com HTML5
+</canvas>
+<div id="debug_div" style="float: right; width: 300px;"></div>
+
+<script>
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, 320, 240);
+
+	var sprite = new Sprite('target', 100, 100, 'images/vaca_vitoria_with_shadow.png' );
+
+	mygame.currentScene.add(new MoveText());
+	mygame.currentScene.add(new ShowAllPressedKeys());
+	mygame.currentScene.add(sprite);
+
+	function MoveText() {
+		this.speed = 2;
+
+		this.update = function(_game) {
+			var target = _game.currentScene.findById('target');
+
+			if (_game.isKeyPressed('up')) {
+				target.y -= this.speed;
+			}
+
+			if (_game.isKeyPressed('down')) {
+				target.y += this.speed;
+			}
+
+			if (_game.isKeyPressed('left')) {
+				target.x -= this.speed;
+			}
+
+			if (_game.isKeyPressed('right')) {
+				target.x += this.speed;
+			}
+		};
+	}
+
+	// lets do it 
+	mygame.start();
+
+	
+</script>
+
+</body>
+</html>

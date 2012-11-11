@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground">
+<canvas id="c">
+Navegador nao compativel com HTML5
+</canvas>
+</div>
+<div id="debug_div"></div>
+
+<script>
+
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, 320, 240);
+
+	var title = mygame.currentScene.findById('_title');
+	title.text = "lab3 v42 - click and drag";
+
+	mygame.ball_active = false;
+
+	// turn debug on
+	mygame.debug.level = Debug.LOG;
+
+	// pointer down
+	mygame.currentScene.pointerDownCallbacks.push( function(_game,x,y){
+		_game.debug.log(_game.ball_active + ' down ' + x + ','+ y)
+		_game.ball_active = true;
+		_game.x = x;
+		_game.y = y;
+	});
+
+	// pointer up
+	mygame.currentScene.pointerUpCallbacks.push( function(_game,x,y){
+		_game.debug.log(_game.ball_active + ' up ' + x + ','+ y)
+		_game.ball_active = false;
+	});
+
+	// pointer up
+	mygame.currentScene.pointerMoveCallbacks.push( function(_game,x,y){
+		_game.debug.log(_game.ball_active + ' move ' + x + ','+ y)
+		if(_game.ball_active){
+			_game.x = x;
+			_game.y = y;
+		}
+	});
+
+	// show the ball at the last move position
+	mygame.currentScene.add(new ShowBall());
+
+	function ShowBall() {
+		this.update = function(_game) {
+			if(_game.ball_active){
+				_game.ctx.fillStyle = '#FF0000';
+				_game.ctx.beginPath();
+				_game.ctx.arc(_game.x, _game.y, 50, 0, Math.PI * 2, true);
+				_game.ctx.closePath();
+				_game.ctx.fill();
+			}
+		};
+	}
+
+	// lets do it 
+	mygame.start();
+	
+</script>
+
+</body>
+</html>

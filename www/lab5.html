@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground"><canvas id="c"> Navegador nao
+compativel com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script>
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, 320, 240);
+
+	var title = mygame.currentScene.findById('_title');
+	title.text = "lab5 - drag rectangles and image";
+
+	var rect = new Rectangle('rect1', 10, 150, 100, 50);
+	rect.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.debug.log('clicked on rect1 ' + x + ' ' + y);
+	});
+	
+	rect.isDraggable = true
+	mygame.currentScene.add(rect);
+
+	var rect2 = new Rectangle('rect2', 120, 150, 100, 50);
+	rect2.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.debug.log('clicked on rect2 ' + x + ' ' + y);
+	});
+	
+	rect2.isDraggable = true;
+	mygame.currentScene.add(rect2);
+
+	var label1 = new Label(10, 50, 'label1', 'Lorem Ipsum');
+	label1.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.debug.log('clicked on label1');
+	});
+	mygame.currentScene.add(label1);
+
+	var sprite1 = new Sprite('target', 50, 50,
+			'images/vaca_vitoria_with_shadow.png');
+
+	sprite1.pointerDownCallbacks.push(function(_game, x, y) {
+		_game.debug.log('clicked on sprite1');
+	});
+
+	sprite1.isDraggable = true;
+	mygame.currentScene.add(sprite1);
+
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.start();
+</script>
+
+
+</body>
+</html>

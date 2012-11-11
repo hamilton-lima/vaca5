@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+
+<div id="playground"><canvas id="c"><img
+	src="images/fallback.png"></canvas></div>
+<div id="debug_div"></div>
+
+<script><!--
+	var w = 635;
+	var h = 257;
+
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, w, h);
+
+	var scene1 = new Scene(w, h);
+	scene1.setBackground('#000000');
+
+	var pics = [ 'images/103_1013.jpg', 'images/IMG_1422.jpg',
+			'images/IMG_1794.jpg', 'images/103_0968.jpg', 'images/103_0969.jpg' ];
+
+	var sprites = new Array();
+
+	for (key in pics) {
+		var sprite = new Sprite('sprite_' + key, -w, 0, pics[key]);
+		scene1.add(sprite);
+		sprites.push(sprite);
+	}
+
+	var PicMover = function(_sprites) {
+
+		this.id = 'pic_mover';
+		this.sprites = _sprites;
+		this.pos = 0;
+		this.border = 2;
+		this.x = 0;
+		this.defaultSpeed = 3;
+		this.speed = this.defaultSpeed;
+
+		this.start = function(_game) {
+			this.x = (this.sprites[this.pos].width - 1) * -1;
+			this.sprites[this.pos].x = this.x;
+		}
+
+		this.update = function(_game, _scene, current) {
+			var posX = this.sprites[this.pos].x;
+			var current = this.pos;
+			this.sprites[current].x += this.speed;
+
+			var lastX = posX;
+
+			while (posX > (this.sprites[current].width * -1)) {
+				lastX = this.sprites[current].x;
+
+				current++;
+				if (current >= this.sprites.length) {
+					current = 0;
+				}
+
+				posX = lastX - (this.sprites[current].width + this.border);
+				this.sprites[current].x = posX;
+			}
+
+			if (this.sprites[this.pos].x > _game.width) {
+				this.pos++;
+				console.debug('pos' + this.pos);
+				if (this.pos >= this.sprites.length) {
+					this.pos = 0;
+				}
+			}
+
+		}
+	}
+
+	scene1.add(new PicMover(sprites));
+
+	// pointer down
+	scene1.pointerDownCallbacks.push(function(_game, x, y) {
+		var mover = _game.currentScene.findById('pic_mover');
+		mover.speed = 0;
+		_game.debug.log('mouse down');
+	});
+
+	// pointer up
+	scene1.pointerUpCallbacks.push(function(_game, x, y) {
+		var mover = _game.currentScene.findById('pic_mover');
+		mover.speed = mover.defaultSpeed;
+		_game.debug.log('mouse up');
+	});
+
+	var loading = new SceneLoading(w, h, scene1);
+	mygame.currentScene = loading;
+
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.showFPS = false;
+	mygame.start();
+	
+--></script>
+
+
+</body>
+</html>

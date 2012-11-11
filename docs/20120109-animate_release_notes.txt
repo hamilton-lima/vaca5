@@ -1,0 +1,14 @@
+20120109-animate release notes.txt
+----------------------------------
+
+- alterado maximo de FPS para 40, precisando alterar este valor 
+o atributo game.interval deve ser alterado, hoje o valor padrão eh
+25 que é igual a 1000 / 40
+
+- alterada class sprite para permitir animações, o atributo sprite.frames
+indica quantos frames cada imagem da animação deve ocupar
+ver o codigo de lab_animate.html para exemplos de uso
+
+- corrigido exemplo do lab10.html que usa distribuicao de elementos em grid na tela
+calculando automaticamente as dimensoes dos elementos adicionados ao objeto layout.
+

@@ -1,0 +1,8 @@
+{
+  "header": ["propaganda", "fev 2011","mar 2011", "abr 2011"],  
+  "data": [
+  	["vacavitoria", "323","222", "343"],  	
+  	["pizza wsd", "32","22", "43"],  	
+  	["farmacia XRW", "333","126", "543"]
+  	]
+}

@@ -1,0 +1,16 @@
+release plan
+------------
+
+= generate minified javascript
+./compile.sh 
+
+= create javadoc like documentation
+cd jsdoc-toolkit
+./generate-doc.sh 
+
+= update the files @ http://www.vacavitoria.com/vaca5/ with all the samples
+= update the link @ http://labs.vacavitoria.com/vaca5/ for the latest package
+= create a post with the release notes @ labs.vacavitoria.com
+
+
+http://labs.vacavitoria.com/wp-content/uploads/2012/01/vaca5-20120109-animate.js

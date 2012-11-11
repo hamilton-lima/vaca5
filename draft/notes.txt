@@ -1,0 +1,32 @@
+
+gerar javadoc
+http://www.yuiblog.com/blog/2008/12/08/yuidoc/
+
+acesso local
+http://localhost/~hamiltonlima/vaca5/referencia/index.html
+
+compressor de javascript
+http://developer.yahoo.com/yui/compressor/
+
+sobre captura de teclas
+http://html5.litten.com/moving-shapes-on-the-html5-canvas-with-the-keyboard/
+
+lendo os pixels de uma imagem
+http://html5.litten.com/make-a-maze-game-on-an-html5-canvas/
+
+arrastando elementos no canvas
+http://html5.litten.com/how-to-drag-and-drop-on-an-html5-canvas/
+
+audio
+http://www.w3schools.com/html5/tag_audio.asp
+
+fisica
+http://box2d.thinkpixellab.com/
+
+referencia do canvas
+http://dev.w3.org/html5/canvas-api/canvas-2d-api.html#canvasrenderingcontext2d
+
+consideracoes sobre o ipad
+http://tenderlovingcode.com/blog/web-apps/html5-canvas-drawing-on-ipad/
+
+

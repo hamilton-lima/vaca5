@@ -1,0 +1,19 @@
+<script src="lib/nmscolor.js"></script>
+<script src="lib/resource.js"></script>
+<script src="lib/layout.js"></script>
+<script src="lib/transition.js"></script>
+<script src="lib/colision.js"></script>
+<script src="lib/rectangle.js"></script>
+<script src="lib/grid.js"></script>
+<script src="lib/audio.js"></script>
+<script src="lib/sprite.js"></script>
+<script src="lib/label.js"></script>
+<script src="lib/scene.js"></script>
+<script src="lib/debug.js"></script>
+<script src="lib/browser.js"></script>
+<script src="lib/viewport.js"></script>
+<script src="lib/progress.js"></script>
+<script src="lib/game.js"></script>
+
+
+<script src="vaca5.js"></script>

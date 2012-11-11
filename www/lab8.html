@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground"><canvas id="c"> Navegador nao
+compativel com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script>
+	var w = 750;
+	var h = 500;
+	var maxBalls = 100;
+
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, w, h);
+
+	var scene1 = new Scene(w, h);
+	scene1.setBackground('#FFFFFF');
+
+	var w = 30;
+	var h = 30;
+	var x = 50;
+	var y = 90;
+	var startX = 50;
+	var lineMax = 9;
+	var lineCounter = 0;
+	var margin = 10;
+	var colisions = 0;
+	var FramesToKeepColor = 5;
+
+	//
+	//
+
+	for ( var n = 0; n < maxBalls; n++) {
+		var rect = new Rectangle('rect_' + n, x, y, w, h);
+
+		rect.speedX = (Math.random() * 20) + 1;
+		rect.speedY = (Math.random() * 20) + 1;
+
+		// counter to allow the colision color remains
+		rect.counter = 0;
+
+		// before UPDATE
+		rect.beforeUpdate = function(_game, _scene, current){
+			current.counter--;
+
+			if (current.counter < 1) {
+				current.fillColor = NMSColor.BANANA;
+			}
+			var _speedX = current.speedX * _game.dt;
+			var _speedY = current.speedY * _game.dt;
+
+			current.x += _speedX;
+			current.y += _speedY;
+			
+			// _game.colision.move(current);
+
+			if (current.x < 0) {
+				current.speedX = current.speedX * -1;
+			}
+			if (current.y < 0) {
+				current.speedY = current.speedY * -1;
+			}
+			if (current.x + current.width > _game.width) {
+				current.speedX = current.speedX * -1;
+			}
+			if (current.y > _game.height) {
+				current.speedY = current.speedY * -1;
+			}
+		};
+
+		rect.fillColor = NMSColor.BANANA;
+		rect.borderColor = '#000000';
+		rect.isColidable = true;
+		scene1.add(rect);
+		// mygame.colision.add(rect);
+
+		x = x + w + margin;
+
+		if (lineCounter++ >= lineMax) {
+			lineCounter = 0;
+			x = startX;
+			y = y + w + margin;
+		}
+
+	}
+
+	// add labels after the rectangles 
+	var label = new Label(80, 10, '_title',
+			'Bolas em movimento (' + maxBalls + ')');
+	var labelColisions = new Label(80, 30, '_colisions', '0');
+
+	labelColisions.beforeUpdate = function(_game, _scene, current){
+		current.text = colisions + ' colisões';
+	};
+
+	scene1.add(label);
+	scene1.add(labelColisions);
+
+	mygame.colision.handlers.push(function(_game, _a, _b) {
+		colisions++;
+		_a.fillColor = NMSColor.RED_PEPPER;
+		_b.fillColor = NMSColor.RED_PEPPER;
+
+		_a.counter = FramesToKeepColor;
+		_b.counter = FramesToKeepColor;
+	});
+
+	mygame.currentScene = scene1;
+	mygame.interval = 0;
+
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.start();
+</script>
+
+
+</body>
+</html>

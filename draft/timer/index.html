@@ -1,0 +1,30 @@
+<html>
+<head>
+<script>
+
+
+var total = 1000;
+
+function decrement() {
+	var targetToShow = document.getElementById('t1');
+
+	if( targetToShow ) {
+		targetToShow.innerHTML = '<b>' + total + '</b>';
+		total = total -1;
+		setTimeout(decrement, 1000);
+	}
+}
+
+</script>
+
+</head>
+<body onload="decrement();">
+decrement timer
+<div id="t1">...</div>
+
+
+
+
+
+</body>
+</html>

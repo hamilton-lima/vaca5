@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground"><canvas id="c"> Navegador nao
+compativel com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script>
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, 750, 500);
+
+	var title = mygame.currentScene.findById('_title');
+	title.text = "lab6 v2- colisao de cores";
+
+	var w = 50;
+	var h = 50;
+	var x = 50;
+	var y = 90;
+	var startX = 50;
+	var lineMax = 9;
+	var lineCounter = 0;
+	var margin = 10;
+
+	for (key in NMSColor) {
+
+		var color = NMSColor[key];
+
+		var rect = new Rectangle('rect_' + key, x, y, w, h);
+		rect.pointerDownCallbacks.push(function(_game, x, y) {
+			_game.debug.log('clicked on');
+		});
+
+		rect.fillColor = color;
+		rect.borderColor = '#000000';
+		rect.isDraggable = true;
+		rect.isColidable = true;
+		mygame.currentScene.add(rect);
+
+		x = x + w + margin;
+
+		if (lineCounter++ >= lineMax) {
+			lineCounter = 0;
+			x = startX;
+			y = y + w + margin;
+		}
+
+	}
+
+	mygame.colision.handlers.push(function(_game, _a, _b) {
+		_game.debug.log('colision : ' + _a.id + '>' + _b.id );
+	});
+
+	mygame.currentScene.background = '#FFFFFF';
+
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.start();
+</script>
+
+
+</body>
+</html>
