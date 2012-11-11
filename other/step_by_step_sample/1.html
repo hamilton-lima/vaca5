@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+body { margin: 10px; padding: 0px; }
+canvas { outline: 0; border: 1px solid #000; }
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<canvas id="c">
+Navegador não compatível com HTML5
+</canvas>
+<div id="debug_div" style="float: right; width: 300px;"></div>
+
+<script>
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, 640, 480);
+
+	mygame.currentScene.background = NMSColor.TANGERINE;
+	mygame.start();
+</script>
+
+</body>
+</html>

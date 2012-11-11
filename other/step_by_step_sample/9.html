@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html><head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+body { margin: 10px; padding: 0px; }
+canvas { outline: 0; border: 1px solid #000; }
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+<canvas id="c">Navegador não compatível com HTML5</canvas>
+
+<script>
+	var canvasGame = document.getElementById('c');
+	var g = initGame(canvasGame, 640, 480);
+	var border = 5;
+	var bulletSpeed = 60;
+	
+	// cena do jogo
+	var gameScene = new Scene(g.width, g.height);
+	
+	var bulletBase = new Sprite('bullet', -10, -10, 'images/bullet.png' );
+	gameScene.add(bulletBase);
+		
+	var sprite = new Sprite('ship', 0, 0, 'images/ship.png' );
+	gameScene.add(sprite);
+	
+	var enemy = new Sprite('enemy', 0, border, 'images/enemy.png' );
+	gameScene.add(enemy);
+	enemy.start = function(_game, child){
+		var max = _game.width - child.width - (2 * border);
+		var startPos = Math.floor((Math.random()*max)+1);
+		child.x = max;
+	}
+
+	gameScene.add(new MoveShip());
+	gameScene.add(new MoveEnemy());	
+	gameScene.add(new Shoot());
+
+	sprite.start = function(_game, child){
+		child.x = (_game.width - child.width) /2;
+		child.y = _game.height - child.height - border;
+	}
+	
+	function MoveShip() {
+		this.speed = 40;
+
+		this.update = function(_game) {
+			var target = _game.currentScene.findById('ship');
+			
+			if (_game.isKeyPressed('left')) {
+				var tx = target.x - (this.speed * _game.dt);
+				if( tx > border ){
+					target.x = tx;
+				}
+			}
+
+			if (_game.isKeyPressed('right')) {
+				var tx = target.x + (this.speed * _game.dt);
+				if( tx + target.width < (_game.width - border)){
+					target.x = tx;
+				}
+			}
+			
+		};
+	}
+	
+	function MoveEnemy() {
+		this.speed = 60;
+		this.direction = 1;
+
+		this.update = function(_game) {
+			var target = _game.currentScene.findById('enemy');
+			var tx = target.x + (this.speed * _game.dt * this.direction);
+			
+			if( tx < border ||
+				tx + target.width > (_game.width - border)){
+				this.direction = this.direction * -1;
+			} else {
+				target.x = tx;
+			}
+
+		};
+	}
+	
+	function Shoot() {
+		this.counter = 1;
+		this.wait = -1;
+		this.TimeToShoot = 2.5;
+		
+		this.update = function(_game) {
+		
+			if( this.wait >= 0 ){
+				this.wait -= _game.dt;
+			}
+		
+			if (_game.isKeyPressed('fire2') && this.wait < 0 ) {
+				var target = _game.currentScene.findById('ship');				
+				var bullet = _game.currentScene.findById('bullet');
+				
+				var x = target.x + (target.width /2) - (bullet.width/2);
+				var y = target.y - bullet.height;
+
+				var shootSprite = new Sprite('shoot_' + this.counter, 
+					x, y, 'images/bullet.png' );
+				
+				shootSprite.beforeUpdate = function(_game, current, child){
+					child.y -= bulletSpeed * _game.dt;
+					if( child.y < 0 ){
+						child.remove = true;
+					}
+				}
+					
+				_game.currentScene.add( shootSprite );
+				this.counter ++;
+				this.wait = this.TimeToShoot;	
+			}
+			
+		};
+	}	
+	
+	// cena de carregamento
+	var loadScene = new SceneLoading(g.width, g.height, gameScene);
+	g.currentScene = loadScene;
+	
+	g.showFPS = true;
+	g.fpsColor = '#FFFFFF'; 
+	g.start();
+</script>
+
+</body>
+</html>

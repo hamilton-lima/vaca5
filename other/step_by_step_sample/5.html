@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html><head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+body { margin: 10px; padding: 0px; }
+canvas { outline: 0; border: 1px solid #000; }
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<canvas id="c">
+Navegador não compatível com HTML5
+</canvas>
+<div id="debug_div" style="float: right; width: 600px; wrap: auto;"></div>
+
+<script>
+	var canvasGame = document.getElementById('c');
+	var g = initGame(canvasGame, 640, 480);
+	var border = 5;
+	
+	// cena do jogo
+	var gameScene = new Scene(g.width, g.height);
+	var sprite = new Sprite('ship', 0, 0, 'images/ship.png' );
+	gameScene.add(sprite);
+	gameScene.add(new MoveShip());
+
+	sprite.start = function(_game, child){
+		child.x = (_game.width - child.width) /2;
+		child.y = _game.height - child.height - border;
+	}
+	
+	function MoveShip() {
+		this.speed = 40;
+
+		this.update = function(_game) {
+			var target = _game.currentScene.findById('ship');
+			
+			if (_game.isKeyPressed('left')) {
+				var tx = target.x - (this.speed * _game.dt);
+				if( tx > border ){
+					target.x = tx;
+				}
+			}
+
+			if (_game.isKeyPressed('right')) {
+				var tx = target.x + (this.speed * _game.dt);
+				if( tx + target.width < (_game.width - border)){
+					target.x = tx;
+				}
+			}
+			
+		};
+	}
+	
+	// cena de carregamento
+	var loadScene = new SceneLoading(g.width, g.height, gameScene);
+	g.currentScene = loadScene;
+	
+	g.start();
+</script>
+
+</body>
+</html>
