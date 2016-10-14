@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground"><canvas id="c"> Navegador não compatível com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script>
+	var w = 750;
+	var h = 500;
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, w, h);
+
+	var scene1 = new Scene(w, h);
+	scene1.setBackground('#FFFFFF');
+
+	var label = new Label(10, 40, '_title','Animações');
+	scene1.add(label);
+	
+	
+	var sprite = new Sprite('target', 100, 100, 'images/box1.png' );
+	scene1.add(sprite);
+	
+	sprite.addState('anim','images/box1.png');	
+	sprite.addState('anim','images/box2.png');
+	sprite.addState('anim','images/box3.png');	
+	sprite.addState('anim','images/box4.png');	
+	sprite.addState('anim','images/box5.png');	
+	sprite.addState('anim','images/box6.png');
+	sprite.addState('anim','images/box7.png');	
+	sprite.addState('anim','images/box7.png');
+	sprite.addState('anim','images/box6.png');	
+	sprite.addState('anim','images/box5.png');
+	sprite.addState('anim','images/box4.png');	
+	sprite.addState('anim','images/box3.png');	
+	sprite.addState('anim','images/box2.png');	
+
+	sprite.setState('anim');
+	
+	var sprite2 = new Sprite('target2', 300, 100, 'images/box1.png' );
+	scene1.add(sprite2);
+	
+	mygame.currentScene = scene1;
+
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.showFPS = true;
+	mygame.start();
+</script>
+
+
+</body>
+</html>

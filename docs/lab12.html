@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+	margin: 10px;
+	padding: 0px;
+}
+
+canvas {
+	outline: 0;
+	border: 1px solid #000;
+	margin-left: 0;
+	margin-right: auto;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+</style>
+</head>
+
+<body onselect="return false;">
+<script src="vaca5.js"></script>
+
+<div id="playground"><canvas id="c"> Navegador nao
+compativel com HTML5 </canvas></div>
+<div id="debug_div"></div>
+
+<script>
+	var w = 750;
+	var h = 500;
+	var canvasGame = document.getElementById('c');
+	var mygame = initGame(canvasGame, w, h);
+
+	var scene1 = new Scene(w, h);
+	scene1.setBackground('#FFFFFF');
+	var quadrosPorLinha = 10;
+
+	var marginEsq = 10;
+	var marginDir = 10;	
+	var marginTopo = 10;
+	var margin = 5;
+	
+	var larguraUtil = w - marginEsq - marginDir;
+	
+	var w1 = (larguraUtil / quadrosPorLinha ) - margin;
+	var h1 = 30;
+	var x = 0;
+	var y = 0;
+
+	var colunas = quadrosPorLinha;
+	var linhas = (h * 0.5) / (h1+margin);
+
+	var counter = 1;
+	
+	for ( var n = 0; n < colunas; n++) {
+		for ( var m = 0; m < linhas; m++) {
+			x = (n * (w1+margin)) + marginEsq;
+			y = m * (h1+margin) + marginTopo;
+			
+			var rect = new Rectangle('rect_' + counter, x, y, w1, h1);
+			counter ++;
+			
+			rect.fillColor = NMSColor.TANGERINE;
+			rect.borderColor = '#000000';
+			rect.isColidable = true;
+			scene1.add(rect);
+		}
+	}
+	
+
+	var rect2 = new Rectangle('bola', 120, h - 100, 40, 25);
+	rect2.isDraggable = true;
+	rect2.isColidable = true;
+	scene1.add(rect2);
+
+	mygame.colision.handlers.push(function(_game, _a, _b) {
+		_game.debug.log('colisao de ' + _a.id + ' para ' + _b.id );
+		
+		if( _a.id.indexOf('rect_') >= 0 ){
+			_a.remove = true;
+		}
+		
+		if( _b.id.indexOf('rect_') >= 0 ){
+			_b.remove = true;
+		}
+		
+	});
+
+
+	var label = new Label(marginEsq, y + h1 + marginTopo, 
+	'_title','Caixas distribuidas em matriz - Arraste a caixa abaixo :)');
+	scene1.add(label);
+
+	mygame.currentScene = scene1;
+
+	// lets do it 
+	mygame.debug.level = mygame.debug.LOG;
+	mygame.showFPS = false;
+	mygame.start();
+</script>
+
+
+</body>
+</html>
